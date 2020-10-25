@@ -1,7 +1,7 @@
 $(document).ready(function () {
   //Initial time and score variables
 
-  var countdown = 60;
+  var countDown = 60;
   var score = 0;
 
   // Question Index
@@ -9,91 +9,118 @@ $(document).ready(function () {
   var questions = [
     {
       q: "Established in 1872, name the oldest National Park.",
-      o: [ "Yellowstone National Park", "Denali National Park", "Canyonlands National Park", "Saguaro National Park" ],
+      o: [ "Yellowstone National Park",
+        "Denali National Park",
+        "Canyonlands National Park",
+        "Saguaro National Park" ],
       a: "Yellowstone National Park"
     },
     {
       q: "_______ is the largest National Park at 5,270 square miles.",
-      o: [ "Joshua Tree National Park", "Sequoia National Park", "Death Valley National Park" "Yosemite National Park" ],
+      o: [ "Joshua Tree National Park",
+      "Sequoia National Park",
+      "Death Valley National Park",
+      "Yosemite National Park" ],
       a: "Death Valley National Park"
     },
     {
       q: "What National Park is known to have 2,000 documented stone arches?",
-      o: [ "Great Smokies National Park", "Grand Canyon National Park", "Arches National Park", "Grand Tetons National Park"],
+      o: [ "Great Smokies National Park",
+      "Grand Canyon National Park",
+      "Arches National Park",
+      "Grand Tetons National Park"],
       a: "Arches National Park"
     },
     {
       q: "This watefall is the tallest waterfall in North America",
-      o: [ "Yosemite Falls - Yosemite National Park", "Dark Hollow Falls - Shenandoah National Park", "Blue Hen Falls - Cuyahoga National Park", "Sol Duc Falls - Olympic National Park" ],
+      o: [ "Yosemite Falls - Yosemite National Park",
+      "Dark Hollow Falls - Shenandoah National Park",
+      "Blue Hen Falls - Cuyahoga National Park",
+      "Sol Duc Falls - Olympic National Park" ],
       a: "Yosemite Falls - Yosemite National Park"
-    }
+    },
+  ];
 
-
-var startButton = document.getElementById("start-button");
-var secondsRemaining = document.getElementById("seconds-remaining");
-// Click the start button, first button appears, timer starts to count down 
-// Need event listener for start button
-// Need to make time count down
-
-
-function quizTimer() {
-    var timeSubtractor = quizTiming(function() {
-      countDown--;
-      secondsRemaining.textContent = countDown + " seconds left";
-  
-      if(countDown === 0) {
-        clearInterval(timeSubtractor);
-        timesUpMessage();
-      }
-  
-    }, 1000);
-  }
-
-  function timesUpMessage() {
-    secondsRemaining.textContent = "Time's up, fool!";
-  
-    var imgEl = document.createElement("img");
-  
-    imgEl.setAttribute("src", "images/image_1.jpg");
-    mainEl.appendChild(imgEl);
-  
-  }
-  
-  setTime();
-
-  function generateFunctino({
+  // Start-Button
+  $("#start-button").on("click", function(){
+    // clear intro html elements
+    $(".initial-look").empty();
     
-    var questionMarkUp = 
+    // start timer
+    interval= setInterval(function() {
+    countDown--;
+    $("#clock").text("Seconds Remaining: " + countDown);
+
+    // Stops quiz when time runs out
+    if (countDown <= 0) {
+      endQuiz();
+    }
+  }, 1000);
+
+  //Generate Question
+  generateQuestion();
+});
+
+// Selection question bank
+var questionBank = document.querySelector("#question-bank");
+
+function generateQuestion() {
+
+  // Create question mark up in variable
+  var questionMarkUp = `
       <div>
-        <h3 id="question" class="text-center">${questions[questionIndex].q}</h3>
+        <h4 id="question" class="text-center mt-3">${questions[questionIndex].q}</h4>
       </div>
-      <div class="list=group text-center">
+      <div class="list-group mt-3 text-center">
         <button type="button" class="answer-choice list-group-item list-group-item-action">${questions[questionIndex].o[0]}</button>
         <button type="button" class="answer-choice list-group-item list-group-item-action">${questions[questionIndex].o[1]}</button>
         <button type="button" class="answer-choice list-group-item list-group-item-action">${questions[questionIndex].o[2]}</button>
         <button type="button" class="answer-choice list-group-item list-group-item-action">${questions[questionIndex].o[3]}</button>
       </div>
+    `;
 
-  questionBank.innerHTML(questionMarkUp);
+    // Inserting Q/As to HTML 
+    questionBank.innerHTML = questionMarkUp;
+}
 
-  questionBank.addEventListener("click", function(event)) {
-    //check if answer choice element is selected
-    if (event.target.className.indexOf("answer-choice") > -1) {
+  questionBank.addEventListener("click", function (event) {
+    // Check if answer is picked
+    if (event.target.class.indexOf("answer-choice") > -1) {
       processAnswer(event);
     }
   });
 
-function processAnswer(event) {
-  //determine if it is correct
-  if (event.target.textContent === question[questionIndex].a) {
-    //add score
-    score++;
-  }
-  else {
-    //decrement time
-    time = time - 5;
-  }
-};
+  
+  // Break down what happens if answer selected is correct or incorrect
+  function processAnswer(event) {
+    if (event.target.textContent === questions[questionIndex].a) {
+      // Add 1 point to score
+      score++;
+    }
+    // Subtract time
+    else {
+      countDown = countDown - 5;
+    }
 
+    // Move to next question
+    questionIndex++;
 
+    // Check if on the last question of quiz
+    if (questionIndex === questionIndex.length) {
+      endQuiz();
+    }
+    // If quiz is not over
+    generateQuestion();
+  };
+  
+  // End Quiz Function
+
+  function endQuiz() {
+    //clear interval
+    clearInterval();
+    //hide question
+    questionBank.classList.add("hide");
+    //update final score
+    document.querySelector("#final-score").textContent = score;
   }
+});
