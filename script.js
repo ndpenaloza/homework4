@@ -62,7 +62,7 @@ $(document).ready(function () {
 });
 
 // Selection question bank
-var questionBank = document.querySelector("#question-bank");
+var questionBank = document.querySelector(".question-bank");
 
 function generateQuestion() {
 
@@ -85,7 +85,7 @@ function generateQuestion() {
 
   questionBank.addEventListener("click", function (event) {
     // Check if answer is picked
-    if (event.target.class.indexOf("answer-choice") > -1) {
+    if (event.target.className.indexOf("answer-choice") > -1) {
       processAnswer(event);
     }
   });
