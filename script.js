@@ -123,6 +123,6 @@ function generateQuestion() {
     //update final score
     document.querySelector("#final-score").textContent = score;
     // Go to score board page
-    window.location.replace(href="scoreboard.html");
+    window.location.replace(href="topscores.html");
   }
 });

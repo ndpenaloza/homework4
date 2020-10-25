@@ -1,5 +1,9 @@
 # homework4 - Web APIs: Code Quiz
 
+Description:
+
+This project involves creating a quiz that manipulates the DOM. Once the quiz began, a timer started to tick down. With every correct point, the user's score would increment by 1 point, and with every incorrect choice resulted in a decrement of 5 seconds off the timer. Every choice also resulted in a new question and set of options populating the DOM.
+
 ![screenshot of NPS Quiz](assets/images/NPSQuiz.pdf)
 
 License
