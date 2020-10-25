@@ -1,7 +1,11 @@
 # homework4 - Web APIs: Code Quiz
 
+![screenshot of NPS Quiz](assets/images/NPSQuiz.pdf)
+
 License
 MIT License
+
+
 
 Copyright (c) 2020 Nick D. Penaloza
 
