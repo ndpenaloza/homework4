@@ -122,5 +122,7 @@ function generateQuestion() {
     questionBank.classList.add("hide");
     //update final score
     document.querySelector("#final-score").textContent = score;
+    // Go to score board page
+    window.location.replace(href="scoreboard.html");
   }
 });
